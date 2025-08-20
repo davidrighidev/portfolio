@@ -63,11 +63,15 @@ const About = () => {
             <div className="uppercase text-gray-secondary flex mb-2">
               Personal Skills
             </div>
-            <div className="flex flex-col gap-2 text-black justify-center">
-              <div>Creativity</div>
-              <div>Teamwork</div>
-              <div>Communication</div>
-              <div>Responsability</div>
+            <div className="flex flex-col gap-2 items-center">
+              <div className="text-left w-full max-w-[200px]">Creativity</div>
+              <div className="text-left w-full max-w-[200px]">Teamwork</div>
+              <div className="text-left w-full max-w-[200px]">
+                Communication
+              </div>
+              <div className="text-left w-full max-w-[200px]">
+                Responsability
+              </div>
             </div>
           </div>
 
@@ -76,10 +80,10 @@ const About = () => {
             <div className="uppercase text-gray-secondary flex mb-2">
               Languages
             </div>
-            <div className="flex flex-col gap-2 text-black justify-center">
-              <div>German</div>
-              <div>Italian</div>
-              <div>English</div>
+            <div className="flex flex-col gap-2 text-black items-center">
+              <div className="text-left w-full max-w-[200px]">German</div>
+              <div className="text-left w-full max-w-[200px]">Italian</div>
+              <div className="text-left w-full max-w-[200px]">English</div>
             </div>
           </div>
 
@@ -88,12 +92,22 @@ const About = () => {
             <div className="uppercase text-gray-secondary flex mb-2">
               Technical Skills
             </div>
-            <div className="flex flex-col gap-2 text-black justify-center">
-              <div>Adobe Illustrator</div>
-              <div>Adobe Photoshop</div>
-              <div>Adobe InDesign</div>
-              <div>Adobe Premiere</div>
-              <div>Adobe After Effects</div>
+            <div className="flex flex-col gap-2 text-black items-center">
+              <div className="text-left w-full max-w-[200px]">
+                Adobe Illustrator
+              </div>
+              <div className="text-left w-full max-w-[200px]">
+                Adobe Photoshop
+              </div>
+              <div className="text-left w-full max-w-[200px]">
+                Adobe InDesign
+              </div>
+              <div className="text-left w-full max-w-[200px]">
+                Adobe Premiere
+              </div>
+              <div className="text-left w-full max-w-[200px]">
+                Adobe After Effects
+              </div>
             </div>
           </div>
         </div>
