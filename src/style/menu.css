@@ -1,11 +1,14 @@
 nav {
   position: fixed;
   width: 100vw;
-  padding: 1.2em 1.5em;
+  padding: 1.2em 1em;
   display: flex;
   justify-content: space-between;
   align-items: center;
   z-index: 2;
+}
+.logo a {
+  text-decoration: none;
 }
 
 .menu-toggle {
@@ -19,9 +22,11 @@ nav {
   position: absolute;
   transform-origin: top left;
   will-change: transform, opacity;
-  color: #fff;
   user-select: none;
-  mix-blend-mode: difference;
+}
+
+.menu-toggle p#menu-close {
+  color: #fff;
 }
 
 .menu-overlay {
@@ -43,8 +48,7 @@ nav {
   will-change: transform, opacity;
 }
 
-.menu-items,
-.menu-footer {
+.menu-items {
   width: 100%;
   padding: 2.5em;
   display: flex;
@@ -103,12 +107,12 @@ nav {
   will-change: transform;
   transition: color 0.5s;
   user-select: none;
+  text-decoration: none;
 }
 
 .link a {
   font-size: 3.5rem;
   letter-spacing: -0.1rem;
-  color: #fff;
 }
 
 .social a {
@@ -117,21 +121,6 @@ nav {
 
 .social a:hover {
   color: #fff;
-}
-
-.menu-footer {
-  position: absolute;
-  bottom: 0;
-}
-
-.menu-footer .col-lg a,
-.menu-footer .col-sm a {
-  user-select: none;
-}
-
-.menu-footer .col-sm {
-  display: flex;
-  justify-content: space-between;
 }
 
 .link a::after,

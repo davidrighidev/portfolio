@@ -1,5 +1,5 @@
-import { useRef, useState, useCallback } from "react";
-import logo from "/assets/images/logo.svg";
+import { useRef, useState, useCallback, useEffect } from "react";
+import { useNavigate, useLocation } from "react-router-dom";
 import "../style/menu.css";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
@@ -7,6 +7,7 @@ import gsap from "gsap";
 const Menu = ({ outerRef }) => {
   gsap.registerPlugin(useGSAP);
 
+  const navRef = useRef(null);
   const menuToggleRef = useRef(null);
   const menuOverlayRef = useRef(null);
   const menuContentRef = useRef(null);
@@ -16,8 +17,73 @@ const Menu = ({ outerRef }) => {
 
   const [isOpen, setIsOpen] = useState(false);
   const [isAnimating, setIsAnimating] = useState(false);
+  const [useWhite, setUseWhite] = useState(false);
 
-  // Cleanup extra preview images if more than 3
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  // ---------- brightness helpers ----------
+  const parseRGB = (rgbStr) => {
+    const m = rgbStr.match(/rgba?\((\d+),\s*(\d+),\s*(\d+)/i);
+    if (!m) return { r: 255, g: 255, b: 255 };
+    return { r: +m[1], g: +m[2], b: +m[3] };
+  };
+
+  const brightness = ({ r, g, b }) => 0.299 * r + 0.587 * g + 0.114 * b;
+
+  const getEffectiveBgColor = (el) => {
+    while (el && el !== document.documentElement) {
+      const bg = getComputedStyle(el).backgroundColor;
+      if (bg && bg !== "rgba(0, 0, 0, 0)" && bg !== "transparent") return bg;
+      el = el.parentElement;
+    }
+    return (
+      getComputedStyle(document.body).backgroundColor || "rgb(255,255,255)"
+    );
+  };
+
+  const sampleUnderNav = () => {
+    const nav = navRef.current;
+    if (!nav) return;
+
+    const rect = nav.getBoundingClientRect();
+    const points = [
+      { x: rect.left + rect.width * 0.2, y: rect.top + rect.height / 2 },
+      { x: rect.left + rect.width * 0.5, y: rect.top + rect.height / 2 },
+      { x: rect.left + rect.width * 0.8, y: rect.top + rect.height / 2 },
+    ];
+
+    const prev = nav.style.pointerEvents;
+    nav.style.pointerEvents = "none";
+
+    const brights = points.map((p) => {
+      const under = document.elementFromPoint(p.x, p.y);
+      const bg = getEffectiveBgColor(under || document.body);
+      return brightness(parseRGB(bg));
+    });
+
+    nav.style.pointerEvents = prev;
+
+    const avg = brights.reduce((a, b) => a + b, 0) / brights.length;
+
+    const threshold = 160;
+    setUseWhite(avg < threshold);
+  };
+
+  useEffect(() => {
+    const interval = setInterval(sampleUnderNav, 300);
+    return () => clearInterval(interval);
+  }, []);
+
+  useEffect(() => {
+    let t = setTimeout(sampleUnderNav, 120);
+    return () => clearTimeout(t);
+  }, [isOpen]);
+
+  const textTone = `transition-colors duration-500 delay-100 ${
+    useWhite ? "text-white" : "text-black"
+  }`;
+
   const cleanupPreviewImages = useCallback(() => {
     const previewImages = menuPreviewImgRef.current.querySelectorAll("img");
     if (previewImages.length > 3) {
@@ -27,7 +93,6 @@ const Menu = ({ outerRef }) => {
     }
   }, []);
 
-  // Reset preview image to default
   const resetPreviewImage = useCallback(() => {
     menuPreviewImgRef.current.innerHTML = "";
     const defaultPreviewImg = document.createElement("img");
@@ -35,7 +100,6 @@ const Menu = ({ outerRef }) => {
     menuPreviewImgRef.current.appendChild(defaultPreviewImg);
   }, []);
 
-  // Animate "Menu" <-> "Close" text switch
   const animateToggle = useCallback((isOpening) => {
     gsap.to(isOpening ? menuOpenTextRef.current : menuCloseTextRef.current, {
       x: isOpening ? -5 : 5,
@@ -58,7 +122,6 @@ const Menu = ({ outerRef }) => {
     });
   }, []);
 
-  // Open menu animation
   const openMenu = useCallback(() => {
     if (isAnimating || isOpen) return;
     setIsAnimating(true);
@@ -104,7 +167,6 @@ const Menu = ({ outerRef }) => {
     });
   }, [isAnimating, isOpen, animateToggle, outerRef]);
 
-  // Close menu animation
   const closeMenu = useCallback(() => {
     if (isAnimating || !isOpen) return;
     setIsAnimating(true);
@@ -139,22 +201,18 @@ const Menu = ({ outerRef }) => {
         setIsAnimating(false);
         gsap.set(
           menuOverlayRef.current.querySelectorAll(".link a, .social a"),
-          {
-            y: "120%",
-          }
+          { y: "120%" }
         );
         resetPreviewImage();
       },
     });
   }, [isAnimating, isOpen, animateToggle, outerRef, resetPreviewImage]);
 
-  // Toggle menu state
   const handleToggleClick = useCallback(() => {
     if (!isOpen) openMenu();
     else closeMenu();
   }, [isOpen, openMenu, closeMenu]);
 
-  // Handle preview image change on hover
   const handleLinkHover = useCallback(
     (imgSrc) => {
       if (!isOpen || isAnimating) return;
@@ -162,7 +220,6 @@ const Menu = ({ outerRef }) => {
 
       const previewImages = menuPreviewImgRef.current.querySelectorAll("img");
 
-      // Avoid adding the same image twice in a row
       if (
         previewImages.length > 0 &&
         previewImages[previewImages.length - 1].src.endsWith(imgSrc)
@@ -189,26 +246,44 @@ const Menu = ({ outerRef }) => {
     [isOpen, isAnimating, cleanupPreviewImages]
   );
 
+  // 🟢 hier der Content-Wechsel sofort beim Klick
+  const handleNavClick = (e, path) => {
+    e.preventDefault();
+    if (isAnimating) return;
+
+    // sofort Content wechseln
+    navigate(path);
+
+    // danach Menü schließen (neuer Content ist schon da)
+    closeMenu();
+  };
   return (
     <>
-      <nav className="">
-        <div className="logo mix-blend-difference">
+      <nav
+        ref={navRef}
+        className="fixed top-0 left-0 w-full px-4 py-3 flex justify-between items-center z-50"
+      >
+        <div className="logo">
           <a href="#">
-            <span className="text-[1rem] sm:text-[2rem] text-white font-[500]">
-              DAVID RIGHI
+            <span
+              className={`text-[1rem] sm:text-[1.5rem] font-[500] ${textTone}`}
+            >
+              DR
             </span>
-            <span className="text-white text-[0.5rem] sm:text-[1rem]">©</span>
+            <span className={`text-[0.5rem] sm:text-[0.75rem] ${textTone}`}>
+              ©
+            </span>
           </a>
         </div>
         <div
           ref={menuToggleRef}
-          className="menu-toggle mix-blend-difference"
+          className="menu-toggle cursor-pointer"
           onClick={handleToggleClick}
         >
-          <p ref={menuOpenTextRef} id="menu-open">
+          <p ref={menuOpenTextRef} id="menu-open" className={textTone}>
             Menu
           </p>
-          <p ref={menuCloseTextRef} id="menu-close">
+          <p ref={menuCloseTextRef} id="menu-close" className="">
             Close
           </p>
         </div>
@@ -226,10 +301,29 @@ const Menu = ({ outerRef }) => {
               <div className="menu-links">
                 <div className="link">
                   <a
-                    href="#"
-                    data-img="/assets/images/menu/img-1.jpg"
+                    href="/"
+                    onClick={(e) => handleNavClick(e, "/")}
                     onMouseOver={() =>
                       handleLinkHover("/assets/images/menu/img-1.jpg")
+                    }
+                    className={
+                      location.pathname === "/" ? "text-gray-500" : "text-white"
+                    }
+                  >
+                    Index
+                  </a>
+                </div>
+                <div className="link">
+                  <a
+                    href="/about"
+                    onClick={(e) => handleNavClick(e, "/about")}
+                    onMouseOver={() =>
+                      handleLinkHover("/assets/images/menu/img-2.jpg")
+                    }
+                    className={
+                      location.pathname === "/about"
+                        ? "text-gray-500"
+                        : "text-white"
                     }
                   >
                     About
@@ -237,21 +331,15 @@ const Menu = ({ outerRef }) => {
                 </div>
                 <div className="link">
                   <a
-                    href="#"
-                    data-img="/assets/images/menu/img-2.jpg"
-                    onMouseOver={() =>
-                      handleLinkHover("/assets/images/menu/img-2.jpg")
-                    }
-                  >
-                    Archive
-                  </a>
-                </div>
-                <div className="link">
-                  <a
-                    href="#"
-                    data-img="/assets/images/menu/img-3.jpg"
+                    href="/gallery"
+                    onClick={(e) => handleNavClick(e, "/gallery")}
                     onMouseOver={() =>
                       handleLinkHover("/assets/images/menu/img-3.jpg")
+                    }
+                    className={
+                      location.pathname === "/gallery"
+                        ? "text-gray-500"
+                        : "text-white"
                     }
                   >
                     Gallery
@@ -259,10 +347,15 @@ const Menu = ({ outerRef }) => {
                 </div>
                 <div className="link">
                   <a
-                    href="#"
-                    data-img="/assets/images/menu/img-4.jpg"
+                    href="/connect"
+                    onClick={(e) => handleNavClick(e, "/connect")}
                     onMouseOver={() =>
                       handleLinkHover("/assets/images/menu/img-4.jpg")
+                    }
+                    className={
+                      location.pathname === "/connect"
+                        ? "text-gray-500"
+                        : "text-white"
                     }
                   >
                     Connect
@@ -274,15 +367,6 @@ const Menu = ({ outerRef }) => {
                   <a href="#">Instagram</a>
                 </div>
               </div>
-            </div>
-          </div>
-          <div className="menu-footer">
-            <div className="col-lg">
-              <a href="#">Run Sequence</a>
-            </div>
-            <div className="col-sm">
-              <a href="#">Origin</a>
-              <a href="#">Join Signal</a>
             </div>
           </div>
         </div>

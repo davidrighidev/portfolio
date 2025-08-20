@@ -27,15 +27,6 @@ img {
   object-fit: cover;
 }
 
-a,
-p {
-  position: relative;
-  text-decoration: none;
-  color: #171615;
-  font-size: 16px;
-  font-weight: 400;
-}
-
 .btn,
 .btn-light {
   position: relative;
