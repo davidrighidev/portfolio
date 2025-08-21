@@ -3,10 +3,10 @@ import Hero from "../components/Hero";
 import Quote from "../components/Quote";
 import Footer from "../components/Footer";
 
-const Home = () => {
+const Home = ({ loaderDone }) => {
   return (
     <>
-      <Hero />
+      <Hero loaderDone={loaderDone} />
       <Quote />
       <Footer />
     </>

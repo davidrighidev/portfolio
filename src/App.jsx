@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { useRef, useState, useEffect } from "react";
 import {
   BrowserRouter as Router,
   Routes,
@@ -10,6 +10,7 @@ import Home from "./pages/Home";
 import About from "./pages/About";
 import Gallery from "./pages/Gallery";
 import Connect from "./pages/Connect";
+import Loader from "./components/Loader";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
@@ -28,18 +29,24 @@ function ScrollToTopAndRefresh() {
 
 function App() {
   const outerContainerRef = useRef(null);
+  const [loaderDone, setLoaderDone] = useState(false);
+
+  const triggerHeroAnimation = () => {
+    setLoaderDone(true);
+  };
 
   return (
     <Router>
+      <Loader onComplete={triggerHeroAnimation} />
       <ScrollToTopAndRefresh />
       <Menu outerRef={outerContainerRef} />
 
       <div
         ref={outerContainerRef}
-        className="relative w-full z-0 h-full will-change-transform origin-top-right"
+        className="relative w-screen z-0 h-screen will-change-transform origin-top-right"
       >
         <Routes>
-          <Route path="/" element={<Home />} />
+          <Route path="/" element={<Home loaderDone={loaderDone} />} />
           <Route path="/about" element={<About />} />
           <Route path="/gallery" element={<Gallery />} />
           <Route path="/connect" element={<Connect />} />

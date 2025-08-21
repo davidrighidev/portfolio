@@ -12,7 +12,7 @@ const About = () => {
 
   return (
     <>
-      <section className="relative w-full bg-white h-full px-[1em] md:px-20 pt-40">
+      <section className="relative w-full bg-white h-full px-[1em] md:px-20 pt-40 z-0">
         <div className="w-full grid md:grid-cols-5 gap-10 mb-30">
           {/* Text Column */}
           <div className="flex flex-col col-span-5 w-full md:col-span-3 gap-6 text-xl">
@@ -109,9 +109,8 @@ const About = () => {
             </div>
           </div>
         </div>
+        <Footer />
       </section>
-
-      <Footer />
     </>
   );
 };
