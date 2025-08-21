@@ -3,6 +3,7 @@ import { useNavigate, useLocation } from "react-router-dom";
 import "../style/menu.css";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
+import ScrollTrigger from "gsap/ScrollTrigger";
 
 const Menu = ({ outerRef }) => {
   gsap.registerPlugin(useGSAP);
@@ -199,11 +200,14 @@ const Menu = ({ outerRef }) => {
       onComplete: () => {
         setIsOpen(false);
         setIsAnimating(false);
+
         gsap.set(
           menuOverlayRef.current.querySelectorAll(".link a, .social a"),
           { y: "120%" }
         );
         resetPreviewImage();
+
+        ScrollTrigger.refresh(true);
       },
     });
   }, [isAnimating, isOpen, animateToggle, outerRef, resetPreviewImage]);
@@ -246,15 +250,14 @@ const Menu = ({ outerRef }) => {
     [isOpen, isAnimating, cleanupPreviewImages]
   );
 
-  // 🟢 hier der Content-Wechsel sofort beim Klick
+  // Content-Change
   const handleNavClick = (e, path) => {
     e.preventDefault();
     if (isAnimating) return;
 
-    // sofort Content wechseln
+    // react router
     navigate(path);
 
-    // danach Menü schließen (neuer Content ist schon da)
     closeMenu();
   };
   return (
