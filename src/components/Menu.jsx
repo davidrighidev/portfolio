@@ -97,7 +97,7 @@ const Menu = ({ outerRef }) => {
   const resetPreviewImage = useCallback(() => {
     menuPreviewImgRef.current.innerHTML = "";
     const defaultPreviewImg = document.createElement("img");
-    defaultPreviewImg.src = "/assets/images/menu/img-1.jpg";
+    defaultPreviewImg.src = "/assets/images/hero.webp";
     menuPreviewImgRef.current.appendChild(defaultPreviewImg);
   }, []);
 
@@ -297,7 +297,7 @@ const Menu = ({ outerRef }) => {
           <div className="menu-items">
             <div className="col-lg">
               <div ref={menuPreviewImgRef} className="menu-preview-img">
-                <img src="/assets/images/menu/img-0.jpg" alt="" />
+                <img src="/assets/images/hero.webp" alt="" />
               </div>
             </div>
             <div className="col-sm">
@@ -307,7 +307,7 @@ const Menu = ({ outerRef }) => {
                     href="/"
                     onClick={(e) => handleNavClick(e, "/")}
                     onMouseOver={() =>
-                      handleLinkHover("/assets/images/menu/img-1.jpg")
+                      handleLinkHover("/assets/images/hero.webp")
                     }
                     className={
                       location.pathname === "/" ? "text-gray-500" : "text-white"
@@ -321,7 +321,7 @@ const Menu = ({ outerRef }) => {
                     href="/about"
                     onClick={(e) => handleNavClick(e, "/about")}
                     onMouseOver={() =>
-                      handleLinkHover("/assets/images/menu/img-2.jpg")
+                      handleLinkHover("/assets/images/cartoon.png")
                     }
                     className={
                       location.pathname === "/about"
@@ -367,7 +367,7 @@ const Menu = ({ outerRef }) => {
               </div>
               <div className="menu-socials">
                 <div className="social">
-                  <a href="#">Instagram</a>
+                  <a href="https://instagram.com/david_righi">Instagram</a>
                 </div>
               </div>
             </div>

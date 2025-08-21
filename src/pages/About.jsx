@@ -31,6 +31,7 @@ const About = () => {
                 exploring the endless possibilities of creativity through
                 digital art, photo editing, and visual storytelling.
               </p>
+              <br />
 
               <p>
                 I have a passion for capturing those special moments that make
@@ -39,6 +40,7 @@ const About = () => {
                 Every trip is a rewarding experience, and that's exactly why I
                 find traveling and exploring the world so beautiful.
               </p>
+              <br />
               <p>
                 When I’m not behind the lens, you’ll find me sailing the open
                 waters or spiking a volleyball on the court. Feel free to
@@ -57,7 +59,7 @@ const About = () => {
 
           <div className="flex col-span-5 md:col-span-2 justify-center md:justify-end">
             <img
-              src="/assets/images/about.webp"
+              src="/assets/images/cartoon.png"
               alt="About"
               className="w-48 h-48 md:w-64 md:h-64 object-cover"
             />
