@@ -297,7 +297,7 @@ const Menu = ({ outerRef }) => {
           <div className="menu-items">
             <div className="col-lg">
               <div ref={menuPreviewImgRef} className="menu-preview-img">
-                <img src="/assets/images/hero.webp" alt="" />
+                <img src="/assets/images/menu/sunset.JPG" alt="" />
               </div>
             </div>
             <div className="col-sm">
