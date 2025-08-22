@@ -36,7 +36,7 @@ function App() {
   };
 
   return (
-    <Router>
+    <Router basename="/portfolio">
       <Loader onComplete={triggerHeroAnimation} />
       <ScrollToTopAndRefresh />
       <Menu outerRef={outerContainerRef} />

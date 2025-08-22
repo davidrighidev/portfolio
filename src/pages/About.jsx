@@ -4,6 +4,7 @@ import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useNavigate } from "react-router-dom";
 import Copy from "../components/Copy";
+import { asset } from "../utils/assets";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -59,7 +60,7 @@ const About = () => {
 
           <div className="flex col-span-5 md:col-span-2 justify-center md:justify-end">
             <img
-              src="/assets/images/cartoon.png"
+              src={asset("/assets/images/cartoon.png")}
               alt="About"
               className="w-48 h-48 md:w-64 md:h-64 object-cover"
             />

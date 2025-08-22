@@ -1,6 +1,7 @@
 import { useEffect, useRef, useImperativeHandle, forwardRef } from "react";
 import gsap from "gsap";
 import { SplitText } from "gsap/SplitText";
+import { asset } from "../utils/assets";
 
 const Hero = forwardRef(({ loaderDone }, ref) => {
   const titleRef = useRef(null);
@@ -48,7 +49,7 @@ const Hero = forwardRef(({ loaderDone }, ref) => {
     <section className="bg-black z-[-2] relative w-full h-[50vh] md:h-svh overflow-hidden">
       <div className="absolute top-0 left-0 z-[-1] w-full h-full">
         <img
-          src="/assets/images/hero.webp"
+          src={asset("/assets/images/hero.webp")}
           className="object-cover object-center opacity-80"
         />
       </div>

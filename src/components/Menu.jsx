@@ -4,6 +4,7 @@ import "../style/menu.css";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import ScrollTrigger from "gsap/ScrollTrigger";
+import { asset } from "../utils/assets";
 
 const Menu = ({ outerRef }) => {
   gsap.registerPlugin(useGSAP);
@@ -97,7 +98,7 @@ const Menu = ({ outerRef }) => {
   const resetPreviewImage = useCallback(() => {
     menuPreviewImgRef.current.innerHTML = "";
     const defaultPreviewImg = document.createElement("img");
-    defaultPreviewImg.src = "/assets/images/hero.webp";
+    defaultPreviewImg.src = `${asset("/assets/images/hero.webp")}`;
     menuPreviewImgRef.current.appendChild(defaultPreviewImg);
   }, []);
 
@@ -297,7 +298,7 @@ const Menu = ({ outerRef }) => {
           <div className="menu-items">
             <div className="col-lg">
               <div ref={menuPreviewImgRef} className="menu-preview-img">
-                <img src="/assets/images/menu/sunset.JPG" alt="" />
+                <img src={asset("/assets/images/menu/sunset.JPG")} alt="" />
               </div>
             </div>
             <div className="col-sm">
@@ -307,7 +308,7 @@ const Menu = ({ outerRef }) => {
                     href="/"
                     onClick={(e) => handleNavClick(e, "/")}
                     onMouseOver={() =>
-                      handleLinkHover("/assets/images/hero.webp")
+                      handleLinkHover(`${asset("/assets/images/hero.webp")}`)
                     }
                     className={
                       location.pathname === "/" ? "text-gray-500" : "text-white"
@@ -321,7 +322,7 @@ const Menu = ({ outerRef }) => {
                     href="/about"
                     onClick={(e) => handleNavClick(e, "/about")}
                     onMouseOver={() =>
-                      handleLinkHover("/assets/images/cartoon.png")
+                      handleLinkHover(`${asset("/assets/images/cartoon.png")}`)
                     }
                     className={
                       location.pathname === "/about"
@@ -337,7 +338,9 @@ const Menu = ({ outerRef }) => {
                     href="/gallery"
                     onClick={(e) => handleNavClick(e, "/gallery")}
                     onMouseOver={() =>
-                      handleLinkHover("/assets/images/menu/img-3.jpg")
+                      handleLinkHover(
+                        `${asset("/assets/images/menu/img-3.jpg")}`
+                      )
                     }
                     className={
                       location.pathname === "/gallery"
@@ -353,7 +356,9 @@ const Menu = ({ outerRef }) => {
                     href="/connect"
                     onClick={(e) => handleNavClick(e, "/connect")}
                     onMouseOver={() =>
-                      handleLinkHover("/assets/images/menu/img-4.jpg")
+                      handleLinkHover(
+                        `${asset("/assets/images/menu/img-4.jpg")}`
+                      )
                     }
                     className={
                       location.pathname === "/connect"
