@@ -268,7 +268,7 @@ const Menu = ({ outerRef }) => {
         className="fixed top-0 left-0 w-full px-4 py-3 flex justify-between items-center z-50"
       >
         <div className="logo">
-          <a href="#">
+          <a href="/">
             <span
               className={`text-[1rem] sm:text-[1.5rem] font-[500] ${textTone}`}
             >
