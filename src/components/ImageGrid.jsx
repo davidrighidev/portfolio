@@ -1,5 +1,5 @@
 import React from "react";
-import { row1, row2, row3 } from "../constants/images";
+import { row1, row2, row3 } from "../constants/Images.js";
 
 const ImageGrid = () => {
   const rows = [row1, row2, row3];
