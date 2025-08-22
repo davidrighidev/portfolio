@@ -1,17 +1,23 @@
 import React from "react";
-import { images } from "../constants/Images";
+import { row1, row2, row3 } from "../constants/images";
 
 const ImageGrid = () => {
+  const rows = [row1, row2, row3];
+
   return (
-    <div className="columns-1 sm:columns-2 md:columns-3 lg:columns-4 gap-3 space-y-3 mt-20">
-      {images.map((image, i) => (
-        <img
-          key={i}
-          src={image.path}
-          alt=""
-          className="w-full mb-3 break-inside-avoid object-cover"
-          draggable="false"
-        />
+    <div className="flex gap-3 mt-20">
+      {rows.map((row, colIndex) => (
+        <div key={colIndex} className="flex-1 flex flex-col gap-3">
+          {row.map((image, i) => (
+            <img
+              key={i}
+              src={image.path}
+              alt=""
+              className="w-full h-auto object-cover"
+              draggable="false"
+            />
+          ))}
+        </div>
       ))}
     </div>
   );
