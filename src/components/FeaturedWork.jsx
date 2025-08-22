@@ -117,13 +117,16 @@ const FeaturedWork = () => {
   }, []);
 
   return (
-    <section className="bg-white relative md:h-screen">
-      <div className="uppercase text-gray-secondary">Featured Work</div>
-      <div className="container w-full h-full">
+    <section className="bg-white relative p-10 md:p-15">
+      <div className="w-full h-full">
+        <div className="uppercase mt-30 mb-10 text-gray-secondary">
+          Featured Work
+        </div>
+        <div className="h-[2px] w-full bg-gray-tertiary mb-10"></div>
         <div className="preview">
           <div className="preview-img preview-img-1"></div>
         </div>
-        <div className="menu w-full my-[20em]">
+        <div className="menu w-full mb-10">
           <div className="menu-item w-full px-[2em] flex cursor-pointer">
             <div className="info">
               <p>Dolomia Yachts</p>
